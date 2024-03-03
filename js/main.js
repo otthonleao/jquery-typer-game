@@ -1,12 +1,13 @@
 let tempoInicial = $("#tempo-digitacao").text();
 let campoDigitacao = $(".campo-digitacao");
 
-$(document).ready(function(){
+$(document).ready(function () {
 	atualizaTamanhoFrase();
 	inicializaContadores();
 	inicializaCronometro();
+
 	$("#btn-reiniciar").click(btnReiniciaJogo);
-})
+});
 
 // Altera o tamanho das palavras e da frase a ser Digitada.
 function atualizaTamanhoFrase() {
@@ -18,9 +19,9 @@ function atualizaTamanhoFrase() {
 	console.log(numeroPalavras);
 }
 
-// Catagem de caracteres e palavras
+// Contagem de caracteres e palavras
 function inicializaContadores() {
-	campoDigitacao.on("input", function(){
+	campoDigitacao.on("input", function () {
 		let conteudo = campoDigitacao.val();
 
 		let qtdPalavras = conteudo.split(/\S+/).length - 1;
@@ -35,17 +36,22 @@ function inicializaContadores() {
 function inicializaCronometro() {
 	let tempoRestante = $("#tempo-digitacao").text();
 
-	campoDigitacao.one("focus", function(){
-		let cronometroID = setInterval(function(){
+	campoDigitacao.one("focus", function () {
+		let cronometroID = setInterval(function () {
 			tempoRestante--;
-			console.log(tempoRestante)
+			console.log(tempoRestante);
 			$("#tempo-digitacao").text(tempoRestante);
-			if(tempoRestante == 0){
-				campoDigitacao.attr("disabled", true); //desabilita o textarea
+			if (tempoRestante == 0) {
 				clearInterval(cronometroID); //Para o cronometro em 0
+				finalizaJogo();
 			}
-		}, 300)
+		}, 1000);
 	});
+}
+
+function finalizaJogo() {
+	campoDigitacao.attr("disabled", true); //desabilita o textarea
+	inserePlacar();
 }
 
 function btnReiniciaJogo() {
@@ -57,3 +63,7 @@ function btnReiniciaJogo() {
 	$("#tempo-digitacao").text(tempoInicial);
 	inicializaCronometro();
 }
+
+
+
+
